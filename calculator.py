@@ -3,23 +3,55 @@ class Calculator:
         return a + b
 
     def subtract(self, a, b):
-        return b - a
+        return a - b # Fix: switch a, b
 
     def multiply(self, a, b):
         result = 0
-        for i in range(b+1):
-            result = self.add(result, a)
+        is_negative = False
+
+        # Handle negative `b``
+        if b < 0:
+            is_negative = True
+            b = self.subtract(0, b)  
+
+        for _ in range(b):
+            result = self.add(result, a)  
+
+        # Handle negative result if b was originally negative
+        if is_negative:
+            result = self.subtract(0, result) 
+
         return result
 
     def divide(self, a, b):
+        if b == 0:
+            raise ValueError("Division by zero is not allowed")
+        
         result = 0
-        while a > b:
-            a = self.subtract(a, b)
-            result += 1
+        is_negative = False
+
+        # Handle negative `a`
+        if a < 0:
+            is_negative = not is_negative
+            a = self.subtract(0, a) 
+
+        # Handle negative `b`
+        if b < 0:
+            is_negative = not is_negative
+            b = self.subtract(0, b) 
+
+        while a >= b:  # Fix: change sign from > to >=
+            a = self.subtract(a, b)  
+            result = self.add(result, 1)
+
+        # Adjust sign for negative results
+        if is_negative:
+            result = self.subtract(0, result)  
+
         return result
     
-    def modulo(self, a, b):
-        while a <= b:
+    def modulo(self, a, b):    
+        while a >= b: # Fix: change sign from <= to >=
             a = a-b
         return a
 
