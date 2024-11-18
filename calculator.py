@@ -25,7 +25,7 @@ class Calculator:
 
     def divide(self, a, b):
         if b == 0:
-            raise ValueError("Division by zero is not allowed")
+            return "Division by zero is not allowed"
         
         result = 0
         is_negative = False
